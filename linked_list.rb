@@ -9,17 +9,20 @@ class LinkedList
     Node.new(value, next_node)
   end
 
-  def prepend(node)
+  def prepend(node_value)
+    node = node_factory(node_value)
     if @head.nil?
       @head = node
       @tail = node
+      @head.next_node = @tail
     else
       node.next_node = @head
       @head = node
     end
   end
 
-  def append(node)
+  def append(node_value)
+    node = node_factory(node_value)
     if @head.nil?
       @head = node
       @tail = node
@@ -34,6 +37,18 @@ class LinkedList
     return count if current_node == tail
     count += 1
     size(current_node.next_node, count)
+  end
+
+  def pop(current_node = head)
+    if @head.nil?
+      return nil
+    elsif current_node.next_node == @tail
+      old_tail = @tail
+      current_node.next_node = nil
+      @tail = current_node
+      return old_tail
+    end
+    pop(current_node.next_node)
   end
 end
 
