@@ -28,10 +28,17 @@ class LinkedList
       @tail = node
     end
   end
+
+  def size(current_node = head, count = 1)
+    return 0 if head.nil?
+    return count if current_node == tail
+    count += 1
+    size(current_node.next_node, count)
+  end
 end
 
 class Node
-  attr_reader :value, :next_node
+  attr_accessor :value, :next_node
   def initialize(value, next_node)
     @value = value
     @next_node = next_node
