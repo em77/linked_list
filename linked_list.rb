@@ -44,6 +44,12 @@ class LinkedList
     contains?(value, current_node.next_node)
   end
 
+  def find(value, current_index = 0, current_node = head)
+    return current_index if current_node.value == value
+    return puts "Value not found in list" if current_node == @tail
+    find(value, current_index + 1, current_node.next_node)
+  end
+
   def size(current_node = head, count = 1)
     return 0 if head.nil?
     return count if current_node == tail
