@@ -68,6 +68,12 @@ class LinkedList
     end
     pop(current_node.next_node)
   end
+
+  def to_s(current_node = head)
+    print "(#{current_node.value})" + " -> "
+    return print "nil\n" if current_node.next_node.nil?
+    to_s(current_node.next_node)
+  end
 end
 
 class Node
