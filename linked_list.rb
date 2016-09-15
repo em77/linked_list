@@ -32,6 +32,18 @@ class LinkedList
     end
   end
 
+  def at(index, current_node = head)
+    return current_node if index == 0
+    return puts "Index must be positive" if index < 0
+    at(index - 1, current_node.next_node)
+  end
+
+  def contains?(value, current_node = head)
+    return true if current_node.value == value
+    return false if current_node == @tail
+    contains?(value, current_node.next_node)
+  end
+
   def size(current_node = head, count = 1)
     return 0 if head.nil?
     return count if current_node == tail
