@@ -32,6 +32,17 @@ class LinkedList
     end
   end
 
+  def insert_at(node_value, index, current_node = head)
+    if index == 1
+      old_next_node = current_node.next_node
+      current_node.next_node = node_factory(node_value, old_next_node)
+    elsif index < 0
+      return puts "Index must be positive"
+    else
+      insert_at(current_node.next_node, index - 1, current_node)
+    end
+  end
+
   def at(index, current_node = head)
     return current_node if index == 0
     return puts "Index must be positive" if index < 0
