@@ -1,5 +1,3 @@
-require "byebug"
-
 class LinkedList
   attr_reader :head, :tail
   def initialize

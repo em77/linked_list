@@ -1,0 +1,13 @@
+# Ignore all logfiles and tempfiles.
+.byebug_history
+
+# OS X Files
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.DS_Store
+.AppleDouble
+.LSOverride
