@@ -1,3 +1,5 @@
+require "byebug"
+
 class LinkedList
   attr_reader :head, :tail
   def initialize
@@ -5,11 +7,11 @@ class LinkedList
     @tail = nil
   end
 
-  def node_factory(value = nil, next_node = nil)
-    Node.new(value, next_node)
+  def node_factory(value = nil)
+    Node.new(value)
   end
 
-  def prepend(node_value)
+  def prepend_node(node_value)
     node = node_factory(node_value)
     if @head.nil?
       @head = node
@@ -21,25 +23,52 @@ class LinkedList
     end
   end
 
-  def append(node_value)
-    node = node_factory(node_value)
+  def append_node(node_value, current_node = head)
     if @head.nil?
+      node = node_factory(node_value)
       @head = node
       @tail = node
-    else
-      @tail.next_node = node
+    elsif current_node == @tail && current_node.next_node.nil?
+      node = node_factory(node_value)
+      current_node.next_node = node
       @tail = node
+    else
+      append_node(node_value, current_node.next_node)
     end
   end
 
   def insert_at(node_value, index, current_node = head)
-    if index == 1
-      old_next_node = current_node.next_node
-      current_node.next_node = node_factory(node_value, old_next_node)
+    if index == 0 && current_node == @head
+      prepend_node(node_value)
+    elsif index == 1 && current_node.next_node == @tail
+      node = node_factory(node_value)
+      current_node.next_node = node
+      current_node.next_node.next_node = @tail
+    elsif index == 1 && current_node.next_node != @tail
+      old_next_node = current_node.next_node.clone
+      node = node_factory(node_value)
+      current_node.next_node = node
+      current_node.next_node.next_node = old_next_node
     elsif index < 0
       return puts "Index must be positive"
     else
-      insert_at(current_node.next_node, index - 1, current_node)
+      insert_at(node_value, index - 1, current_node.next_node)
+    end
+  end
+
+  def remove_at(index, current_node = head)
+    if index == 0 && current_node == @head
+      current_node.next_node = @head
+    elsif index == 1 && current_node.next_node == @tail
+      current_node.next_node = nil
+      @tail = current_node
+    elsif index == 1 && current_node.next_node != @tail
+      new_next_node = current_node.next_node.next_node
+      current_node.next_node = new_next_node
+    elsif index < 0
+      return puts "Index must be positive"
+    else
+      remove_at(index - 1, current_node.next_node)
     end
   end
 
@@ -89,8 +118,8 @@ end
 
 class Node
   attr_accessor :value, :next_node
-  def initialize(value, next_node)
+  def initialize(value)
     @value = value
-    @next_node = next_node
+    @next_node = nil
   end
 end
